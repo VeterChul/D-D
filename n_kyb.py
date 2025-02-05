@@ -25,14 +25,49 @@ def kyb(k, ch = 1, chit = False):
             print("Ваше число:", n) 
     return 0
 
-list_r = ["s", "b", "r"]
+def throw_again():#перекинуть последний куб
+    pass
 
-R = 1
+def svipe_mode(n_mode):#сменить мод
+    global list_mode, mode
+    mode = list_mode.index(n_mode)
+    return 0
+
+def print_saved(mas):
+    global list_cub
+    if mas == []:
+        mas = [0, len(list_cub) - 1]
+    print("У вас есть сохранёные кубы:")
+    for i in range(mas[0]-1, mas[1]):
+        print(f"    {i}:{list_cub[i][0]}k{list_cub[i][1]}")
+
+def new_cub(mas):
+    pass
+
+def __again():
+    pass
+
+def throw(mas):
+    pass
+
+list_mode = ["s", "b", "r"]
+
+mode = 1
 
 list_cub = []
 
-list_com_1 = ["h", "all_h", "cls",      #"r", "h", "all_h", "cls", "all_buf", "", "n_R"]
-list_com_2 = ["conf_buf", "buf", "c_buf", "ch_m"]
+list_com = ["ch_m", "cls", "help", "mode", "again",  "saved", "save", "", "throw"]
+list_def = {
+    'ch_m' : (lambda mas : print(list_mode[mode])),
+    'cls' :  (lambda mas : print("\n"*50)), 
+    'help' : (lambda mas : print(h)),
+    'mode' : (lambda mas : svipe_mode(mas[0])),
+    'again'  : (lambda mas : throw_again()),
+    'saved' : (lambda mas : print_saved(mas)),
+    'save' : (lambda mas : new_cub(mas)),
+    '' : (lambda mas : __again()),
+    'throw' : (lambda mas : throw(mas)),
+    }
 
 def open_ky(ky):
     m = ky.split("k")
@@ -46,21 +81,6 @@ list_split = {
     'c_buf' : (lambda mas : (0, open_ky(mas[0]))),
 }
 
-list_com_1 = {
-    'R' : (lambda old_s : l_1(old_s)),
-    'S' : (lambda old_s : l_2(old_s)),
-    'h' : (lambda old_s : print(h)),
-    'all_h' : (lambda old_s : print(h_a)),
-    'cls' : (lambda old_s : print("\n"*50)),
-    'r' : (lambda old_s : vib_r_R(old_s)),
-    '' : (lambda old_s : vib_r__(old_s)),
-    'n_R' : (lambda old_s : print(R)),
-    'all_buf' : (lambda old_s : pr_all_buf()),
-    'buf' : (lambda n, ky : buf(n)),
-    'conf_buf' : (lambda n, ky : conf_buf(n, ky)),
-    'c_buf' : (lambda n, ky : new_buf(ky)),
-    }
-
 print(start_mess)
 
 s = input()
@@ -70,10 +90,8 @@ while s != 'q':
 	try:
 		chit = s[0] == " "
 		s = s.split()
-		if s[0] in list_com_1_1:
-			print(1)
-		elif s[0] in list_com_2_1:
-			print(2)
+		if s[0] in list_com:
+			pass
 		else:
 			print(3)
 	
