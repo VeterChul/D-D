@@ -1,5 +1,6 @@
 ﻿import random as r
-from inscriptions import start_mess, error_mess, list_c, list_c_b, list_ptin , h_a, h
+#from inscriptions import start_mess, error_mess, h_a, h
+start_mess = "Преветствуем путешествиники или мастера  в симуляторе кубов D&D.\nЧтобы прочесть инструкцию введите 'h'"
 
 def test_kyb(k,ch = 1):
     return ch <= 40 and k <= 150 and ch > 0 and k > 0
@@ -7,7 +8,7 @@ def test_kyb(k,ch = 1):
 def mass(n):
     m = []
     for i in range(n):
-        for j in range(i):
+        for j in range(i*i):
             m.append(i+1)
     return r.choice(m)
 
@@ -41,13 +42,13 @@ def print_saved(mas):
     for i in range(mas[0]-1, mas[1]):
         print(f"    {i}:{list_cub[i][0]}k{list_cub[i][1]}")
 
-def new_cub(mas):
+def new_cub(mas):#создать новый куб
     pass
 
-def __again():
+def __again():#ентер
     pass
 
-def throw(mas):
+def throw(mas):#поворить 
     pass
 
 list_mode = ["s", "b", "r"]
@@ -56,11 +57,12 @@ mode = 1
 
 list_cub = []
 
-list_com = ["ch_m", "cls", "help", "mode", "again",  "saved", "save", "", "throw"]
+list_com = ["ref", "ch_m", "cls", "help", "mode", "again",  "saved", "save", "", "throw"]
 list_def = {
     'ch_m' : (lambda mas : print(list_mode[mode])),
     'cls' :  (lambda mas : print("\n"*50)), 
     'help' : (lambda mas : print(h)),
+    "ref" :  (lambda mas : print(all_h)),
     'mode' : (lambda mas : svipe_mode(mas[0])),
     'again'  : (lambda mas : throw_again()),
     'saved' : (lambda mas : print_saved(mas)),
@@ -72,8 +74,6 @@ list_def = {
 def open_ky(ky):
     m = ky.split("k")
     return [int(m[0]), int(m[1])]
-
-
 
 list_split = {
     'buf' : (lambda mas : (mas[0], (50, 160))),
@@ -87,17 +87,20 @@ s = input()
 old_s = (0, 0)
 
 while s != 'q':
-	try:
-		chit = s[0] == " "
-		s = s.split()
-		if s[0] in list_com:
-			pass
-		else:
-			print(3)
+    try:
+        chit = s[0] == " "
+        s = s.split()
+        if s[0] in list_com:
+            list_def[s[0]](s[1:])
+        else:
+            if len(s) == 1:
+                kyb(int(s[0]), chit = chit)
+            else:
+                kyb(int(s[1]), int(s[0]), chit = chit)
 	
-	except:
-		print(error_mess,"Ошибка не известна, код 1")
-	finally:
-		s = input()
+    except:
+        print(error_mess,"Ошибка не известна, код 1") 
+    finally:
+        s = input()
 
 print("Спасибо, что воспользовались программой. Желаем ещё собраться за столом")
