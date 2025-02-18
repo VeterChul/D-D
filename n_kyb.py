@@ -1,9 +1,6 @@
 ﻿import re
 import random as r
-
-start_mess = "Преветствуем путешествиники или мастера  в симуляторе кубов D&D.\nЧтобы прочесть инструкцию введите 'h'"
-error_mess = "Произошла техническая ошибка.\nВведите куб повторно или 'h' для порлучения справки"
-
+from all_text import start_mess, error_mess, list_help, ref
 
 list_mode = ["s", "b", "r"]
 
@@ -15,7 +12,7 @@ list_com = ["ref", "ch_m", "cls", "help", "mode", "again",  "saved", "save", "",
 list_def = {
     'ch_m' : (lambda mas : print(list_mode[mode])),
     'cls' :  (lambda mas : print("\n"*50)), 
-    'help' : (lambda mas : print_help()),
+    'help' : (lambda mas : print_help(mas)),
     'ref' :  (lambda mas : print_ref()),
     'mode' : (lambda mas : svipe_mode(mas[0])),
     'again' : (lambda mas : throw_again()),
@@ -27,7 +24,6 @@ list_def = {
 
 old_s = (0, 0)
 
-
 def test_kyb(k,ch = 1):
     return ch <= 40 and k <= 150 and ch > 0 and k > 0
 
@@ -37,7 +33,6 @@ def mass(n):
         for j in range(i*i):
             m.append(i+1)
     return r.choice(m)
-
 
 def kyb(k, ch = 1, chit = False):
     global old_s
@@ -91,24 +86,28 @@ def __again(mas):#ентер
         kyb(old_s[1], old_s[0], mas[-1])
 
 def throw(mas):#кинуть сохраненый куб
-    global mode, list_cub
+    global mode, list_cub, old_s
     kybb = list_cub[mas[0]]
+    old_s = (kybb[0], kybb[1])
     kyb(kybb[1], kybb[0], mass[-1])
 
 def throw_again(mas):#перекинуть последний куб
     global old_s
     kyb(old_s[1], old_s[0], mas[-1])
 
-def print_help():#Вывод help
-    global list_mode, mode
-    h = f"Вы находитесь в режиме {list_mode[mode]}.\nДля получения справки пропишите 'ref'"
-    print(h)
-    return 0
+def print_help(mas):#Вывод help
+    global list_mode, mode, list_help
+    if len(mas) == 1:
+        h = f"Вы находитесь в режиме {list_mode[mode]}.\nДля получения справки пропишите 'ref'"
+        print(h)
+        return 0
+    else:
+        print(f"{mas[0]} - {list_help[mas[0]]}.")
+        return 0
 
 def print_ref():#Вывод справки
-    global list_mode, mode
-    h = "Заглушка"
-    print(h)
+    global list_mode, mode, ref
+    print(ref)
     return 0
 
 def open_ky(ky):
